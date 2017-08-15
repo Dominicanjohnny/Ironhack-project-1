@@ -1,9 +1,10 @@
 #game {
   background-image: url('/pokemon.jpg');
+  imageStretchToFit: true;
 }
-
+s
 #button {
   float: left;
-  top: 0;
+  top: 0;s
   left: 0;
 }

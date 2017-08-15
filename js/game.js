@@ -18,6 +18,7 @@ if (!gamePaused) {
 } else if (gamePaused) {
       gameId = setTimeout(gameLoop, 1000 / 30);
       gamePaused = false;
+
 }
 }
 function keyDown(t) {
@@ -38,7 +39,7 @@ world.createEntity({
     image: "34127.png",
     imageStretchToFit: true,
     density: 4,
-    x: 2,
+    x: 4,
     onKeyDown: function(e) {
         this.applyImpulse(200, 60);
     }
@@ -54,7 +55,7 @@ world.createEntity({
     image: "charizard.png",
     imageStretchToFit: true,
     density: 4,
-    x: 2,
+    x: 4,
     onKeyDown: function(e) {
         this.applyImpulse(200, 60);
     }
@@ -65,10 +66,10 @@ world.createEntity({
     name: "ground",
     shape: "square",
     type: "static",
-    color: "rgb(0,100,0)",
-    width: 30,
-    height: '1.0',
-    y: 12
+    color: "rgb(#deb887)",
+    width: 100,
+    height: '1.5',
+    y: 20
 });
 
 var block = {
@@ -80,7 +81,7 @@ var block = {
     height: 5,
     onImpact: function(entity, force) {
         if (entity.name() === "player") {
-            this.color("black");
+            this.color("disappear");
         }
     }
 
@@ -101,6 +102,7 @@ var block1 = {
 };
 world.createEntity(block1, {
     x: 15
+
 });
 
 world.createEntity(block1, {

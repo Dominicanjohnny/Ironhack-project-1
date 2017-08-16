@@ -10,19 +10,30 @@ var t = document.createTextNode ("Pause")
 
 var button = document.getElementById('button');
 console.log(button);
+var gamePaused = false;
 
 function pauseGame() {
-if (!gamePaused) {
-    clearTimeout(gameId);
-      gamePaused = true;
-} else if (gamePaused) {
-      gameId = setTimeout(gameLoop, 1000 / 30);
-      gamePaused = false;
+  gamePaused = !gamePaused;
+  document.getElementById('gamePausedLabel').innerHTML = gamePaused ? 'Paused' : "";
+  clearForce();
+  console.log('Game Paused:'+gamePaused);
+}
 
+function clearForce(){
+  player.clearForce();
+  player2.clearForce();
+  player.clearVelocity();
+  player2.clearVelocity();
 }
-}
-function keyDown(t) {
-     if (e.keyCode == 80) pauseGame(t);
+function keyDown(e) {
+     console.log('Is Game Paused:'+gamePaused);
+     if(gamePaused){
+       // don't move
+       return;
+     }else{
+        if (e.keyCode == 80) pauseGame(t);
+     }
+
 }
 
 
@@ -32,7 +43,7 @@ function keyDown(t) {
 var canvasElem = document.getElementById("game");
 var world = boxbox.createWorld(canvasElem);
 
-world.createEntity({
+var player = world.createEntity({
     name: "player",
     shape: "circle",
     radius: 2,
@@ -41,6 +52,9 @@ world.createEntity({
     density: 4,
     x: 4,
     onKeyDown: function(e) {
+        if(gamePaused){
+          return;
+        }
         this.applyImpulse(200, 60);
     }
 });
@@ -48,7 +62,9 @@ world.createEntity({
 
 
 
-world.createEntity({
+
+
+var player2 = world.createEntity({
     name: "player2",
     shape: "circle",
     radius: 2,
@@ -57,6 +73,9 @@ world.createEntity({
     density: 4,
     x: 4,
     onKeyDown: function(e) {
+        if(gamePaused){
+          return;
+        }
         this.applyImpulse(200, 60);
     }
 });
@@ -80,8 +99,11 @@ var block = {
     width: .5,
     height: 5,
     onImpact: function(entity, force) {
-        if (entity.name() === "player") {
-            this.color("disappear");
+      console.log('ENTITY:: '+JSON.stringify(entity));
+      console.log('FORCE:: '+JSON.stringify(force));
+        if (entity.name() === "player" || entity.name() === "player2") {
+            player.destroy();
+            player2.destroy();
         }
     }
 
@@ -94,10 +116,13 @@ var block1 = {
   width: .5,
   height: 5,
   onImpact: function(entity, force) {
-    if (entity.name() === "player") {
-      this.color("black");
-    }
+
+      if (entity.name() !== "ground") {
+          this.destroy();
+      }
+
   }
+
 
 };
 world.createEntity(block1, {

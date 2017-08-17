@@ -2,9 +2,9 @@
   background-image: url('/pokemon.jpg');
   imageStretchToFit: true;
 }
-s
-#button {
-  float: left;
-  top: 0;s
+
+/*#button {
+  position: absolute;
+  top:3px;
   left: 0;
-}
+}*/

@@ -261,7 +261,7 @@ var block1 = {
 };
 function gameOver (){
   console.log('alert!!!');
-  alert("You lost, your score was " + gameScore);
+  alert("Your a lousy trainer! your score was " + gameScore);
 }
 
 // var rocket1 = world.createEntity(block1, {
@@ -369,3 +369,6 @@ setTimeout (function(){
 //    width: 4,
 //    height: '.5',
 //  });
+
+console.log(document.getElementById("gameSound"));
+document.getElementById("gameSound").play();

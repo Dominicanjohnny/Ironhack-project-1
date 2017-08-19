@@ -39,6 +39,10 @@ function fire(){
 }
 
 
+gameActive = true;
+var gameScore = 0
+
+var scoreSpan = document.getElementById('score-span');
 
 
 var canvasElem = document.getElementById("game");
@@ -98,6 +102,10 @@ var fire = {
       if (entity.name() !== "ground" && entity.name() !== "player2") {
           this.destroy();
       }
+
+      if (entity.name() !== "player2" && entity.name() === "ground") {
+        gameOver();
+      }
   }
 };
 
@@ -108,7 +116,8 @@ var player2 = world.createEntity({
     image: "mewtwo.png",
     imageStretchToFit: true,
     density: 4,
-    x: 4,
+    x: 3,
+    y: 12,
     onKeyDown: function(e) {
         if(gamePaused){
           return;
@@ -143,8 +152,8 @@ var player2 = world.createEntity({
             radius: 1,
             imageStretchToFit: false,
             density: 2,
-            x: 5,
-            y:17,
+            x: 7,
+            y:10,
             onImpact: function(entity, force) {
                 if (entity.name() !== "ground" && entity.name() !== "player2") {
                     this.destroy();
@@ -178,20 +187,55 @@ world.createEntity({
     y: 20
 });
 
+// world.createEntity({
+//   name: "block2",
+//   shape: "square",
+//   color: "purple",
+//   width: .5,
+//   height: 5,
+//   x: 5
+// });
 
+world.createEntity({
+  name: "block3",
+  shape: "square",
+  color:"purple",
+  image: "boulder2.png",
+  width: 5,
+  height: 5,
+  x: 3,
+  y: 13
+});
 
-var block = {
-    name: "block",
-    shape: "square",
-    color: "brown",
-    image: "36236.png",
-    width: .5,
-    height: 5,
-    onImpact: function(entity, force) {
-        if (entity.name() === "player" || entity.name() === "player2") {
-            player2.destroy();
-        }
-    }
+// world.createEntity({
+//   name: "block4",
+//   shape: "square",
+//   color: "purple",
+//   width: .5,
+//   height: 5,
+//   x: 4,
+//   y: 2,
+// });
+
+ var block = {
+  name: "block",
+  shape: "square",
+  color: "brown",
+  image: "21230.png",
+  width: .5,
+  height: 5,
+  onImpact: function(entity, force) {
+
+      if (entity.name() !== "ground") {
+          this.destroy();
+          gameScore ++;
+      }
+
+      if (entity.name() === "ground" && gameActive === true) {
+        gameOver();
+        gameActive = false;
+      }
+  }
 };
 var block1 = {
   name: "block1",
@@ -204,33 +248,115 @@ var block1 = {
 
       if (entity.name() !== "ground") {
           this.destroy();
+          gameScore ++;
+          console.log (gameScore);
+          scoreSpan.innerHTML = gameScore;
+      }
+
+      if (entity.name() === "ground" && gameActive === true) {
+        gameOver();
+        gameActive = false;
       }
   }
 };
+function gameOver (){
+  console.log('alert!!!');
+  alert("You lost, your score was " + gameScore);
+}
+
+// var rocket1 = world.createEntity(block1, {
+//   x: 27,
+//   y: 1,
+// });
+
+// world.createEntity(block1, {
+//   x: 24,
+//   y: 1,
+// });
 
 world.createEntity(block1, {
-    x: 111
+    x: 21,
+    y: 1,
 });
 
-world.createEntity(block1, {
-    x: 13
-});
+// world.createEntity(block1, {
+//    x: 18,
+//    y: 1,
+// });
 
 world.createEntity(block1, {
-    x: 15
+    x: 15,
+    y: 1,
 });
 
-world.createEntity(block1, {
-   x: 17
-});
+setTimeout (function(){
+  world.createEntity(block1, {
+      x: 21,
+      y: 1,
+  });
 
-world.createEntity(block1, {
-    x: 19
-});
+  world.createEntity(block1, {
+     x: 18,
+     y: 1,
+  });
 
-world.createEntity(block1, {
-   x: 21
-});
+  world.createEntity(block1, {
+      x: 15,
+      y: 1,
+  });
+
+}, 3000);
+
+setTimeout (function(){
+  world.createEntity(block1, {
+      x: 21,
+      y: 1,
+  });
+
+  world.createEntity(block1, {
+     x: 18,
+     y: 1,
+  });
+
+  world.createEntity(block1, {
+      x: 15,
+      y: 1,
+  });
+
+}, 6000);
+
+setTimeout (function(){
+  world.createEntity(block, {
+      x: 21,
+      y: 1,
+  });
+
+  world.createEntity(block, {
+     x: 18,
+     y: 1,
+  });
+
+  world.createEntity(block, {
+      x: 15,
+      y: 1,
+  });
+
+}, 9000);
+
+
+// world.createEntity(block1, {
+//    x: 12,
+//    y: 1,
+// });
+
+// setTimeout(function() {
+//   rocket1.ApplyImpulse(10, 270);
+// }, 1000);
+
+
+
+
+
 // world.createEntity(block, {
 //     x: 16,
 //     y: 1,
